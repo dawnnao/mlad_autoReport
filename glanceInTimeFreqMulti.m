@@ -86,5 +86,5 @@ for day = dayStart : dayEnd
 end
 count = count-1;
 clear data
-
+close
 end

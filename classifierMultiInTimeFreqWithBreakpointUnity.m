@@ -1,5 +1,5 @@
 function [label, labelCount, dateVec, dateSerial] = classifierMultiInTimeFreqWithBreakpointUnity(pathRead, ...
-    sensorNum, dayStart, dayEnd, pathSave, labelName, activeLabel, neuralNet, fs)
+    sensorNum, dayStart, dayEnd, pathSave, labelName, labelTotal, activeLabel, neuralNet, fs)
 % DESCRIPTION:
 %   This is a subfunction of mlad.m, to do step 4 - anomaly detection.
 
@@ -143,7 +143,7 @@ end
 count = count-1; % alignment
 
 for s = sensorNum
-    for l = activeLabel
+    for l = 1 : labelTotal
         labelCount{l,s} = find(label{s} == l);
 %         check = ls(pathSaveNet{s,l});
 %         if ispc, check(1:4) = []; end

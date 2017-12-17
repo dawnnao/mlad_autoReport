@@ -92,26 +92,26 @@ for n = 1 : length(plotx)
     end
     
     if length(plotx) <= 24+1 && mod(n,6) == 1
-        xLabel{n} = datestr(plotx(n), 'mm-dd HH:MM');
+        xLabel{n} = datestr(plotx(n), 'mm-dd');
 %         xLabel{n} = datestr(plotx(n), 'mm-dd ddd. HH:MM');
     end
     
     if length(plotx) > 24+1 && length(plotx) <= 24*7+1 && mod(n,12) == 1
-        xLabel{n} = datestr(plotx(n), 'mm-dd HH:MM');
+        xLabel{n} = datestr(plotx(n), 'mm-dd');
     end
     
     if length(plotx) > 24*7+1 &&  length(plotx) <= 24*31+1 && mod(n,24) == 1
         bigTick(n) = 0.3;
-        xLabel{n} = datestr(plotx(n), 'mm-dd HH:MM');
+        xLabel{n} = datestr(plotx(n), 'mm-dd');
     end
     
     if length(plotx) > 24*31+1 && length(plotx) <= 24*31*3+1 && mod(n,24*7) == 1
-        xLabel{n} = datestr(plotx(n), 'mm-dd HH:MM');
+        xLabel{n} = datestr(plotx(n), 'mm-dd');
     end
     
     if length(plotx) > 24*31*3+1 && mod(n,24*7*2) == 1
         bigTick(n) = 0.3;
-        xLabel{n} = datestr(plotx(n), 'mm-dd HH:MM');
+        xLabel{n} = datestr(plotx(n), 'mm-dd');
     end
 end
 xLabel{1} = ' '; % !!! make the 1st invisible

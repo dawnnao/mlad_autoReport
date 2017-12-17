@@ -212,7 +212,7 @@ for g = 1 : groupTotal
         end
     end
             [~, sensor.date.vec{s}, sensor.date.serial{s}] = ...
-            glanceInTimeFreqMulti_test(readRoot, sensor.num{g}, date.serial.start, date.serial.end, dirName.all, '0-all_', fs);
+            glanceInTimeFreqMulti_combine(readRoot, sensor.num{g}, date.serial.start, date.serial.end, dirName.all, '0-all_', fs);
     %     util.hours = size(sensor.date.vec{s}, 1);
 
         elapsedTime(1) = toc(t(1)); [hours, mins, secs] = sec2hms(elapsedTime(1));
@@ -974,27 +974,12 @@ date.serial.end   = datenum(date.end, dirName.formatIn);
 
 % anomaly detection
 fprintf('\nDetecting...\n')
-[labelTempNeural, countTempNeural, dateVec, dateSerial] = ...
+% [labelTempNeural, countTempNeural, dateVec, dateSerial] = ...
+[sensor.label.neuralNet, sensor.count, dateVec, dateSerial] = ...
     classifierMultiInTimeFreqWithBreakpointUnity(readRoot, sensor.numVec, date.serial.start, date.serial.end, ...
-    dirName.home, sensor.label.name, feature{g}.label.activeLabel, sensor.neuralNet, fs);
+    dirName.home, sensor.label.name, labelTotal, feature{g}.label.activeLabel, sensor.neuralNet, fs);
 
 for s = sensor.numVec
-%     labelTempNeuralGlobal{s} = [];
-%     % convert from categorical to double
-%     for n = 1 : length(labelTempNeural{s})
-%         labelTempNeuralGlobal{s}(n) = str2double(str2mat(labelTempNeural{s}(n)));
-%     end
-%     % mapping
-%     for m = 1 : feature{g}.label.activeLabelNum
-%         labelTempNeuralGlobal{s}(labelTempNeuralGlobal{s} == m) = feature{g}.label.activeLabel(m);
-%     end
-%     % convert from format double to categorical back
-%     labelTempNeuralGlobal{s} = categorical(labelTempNeuralGlobal{s});  % check here!
-    
-    sensor.label.neuralNet{s} = labelTempNeural{s};
-    for l = feature{g}.label.activeLabel
-        sensor.count{feature{g}.label.activeLabel(l), s} = countTempNeural{l,s};
-    end
     sensor.date.vec{s} = dateVec;
     sensor.date.serial{s} = dateSerial;
 end
@@ -1197,6 +1182,8 @@ fprintf('\nSum-up anomaly stats image file location:\n%s\n', ...
     GetFullPath([dirName.plotSum dirName.statsSum]))
 close
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Plot end
+
 % % sum results to check ratios of each anomaly
 % sensor.ratioOfCategory = zeros(3,labelTotal+1);
 % for s = sensor.numVec
@@ -1209,28 +1196,37 @@ close
 % sensor.ratioOfCategory(3,:) = (sensor.ratioOfCategory(1,:)./sensor.ratioOfCategory(1,end)).*100;
 
 % sum results to check ratios of each anomaly
-sensor.ratioOfCategory = NaN(labelTotal+1, 3);
+sensor.ratioOfCategory = zeros(labelTotal+2, 3);
+% summation of each type of anomaly
 for s = sensor.numVec
     for m = 1 : labelTotal
         sensor.ratioOfCategory(m, 1) = sensor.ratioOfCategory(m, 1) + length(cell2mat(sensor.count(m,s)));
     end
 end
-sensor.ratioOfCategory(end, 1) = sum(sensor.ratioOfCategory(:, 1)); % quantity
+sensor.ratioOfCategory(end-1, 1) = sum(sensor.ratioOfCategory(2:end-2, 1)); % quantity of anomaly
+sensor.ratioOfCategory(end, 1) = sum(sensor.ratioOfCategory(1:end-2, 1)); % quantity of total
+
 sensor.ratioOfCategory(2:end-1, 2) = (sensor.ratioOfCategory(2:end-1, 1) ./ ...
-    (sensor.ratioOfCategory(end, 1)-sensor.ratioOfCategory(1, 1))) .*100; % ratio of anomalies
+    sensor.ratioOfCategory(end-1, 1)) .*100; % ratio of anomalies
+sensor.ratioOfCategory([1,end], 2) = NaN;
+
 sensor.ratioOfCategory(:, 3) = (sensor.ratioOfCategory(:, 1) ./ ...
     sensor.ratioOfCategory(end, 1)) .*100; % ratio of total
 
 
+
+
 % report generation
-fprintf('\nGenerating report...\n')
+fprintf('\nGenerating report... ')
 reportCover;
 reportNet;
 reportTrainSetPano;
 reportPano;
+reportTable;
 reportStatsTotal;
 reportStatsSensor;
 reportStatsLabel;
+fprintf('Done.\n')
 
 % % crop legend to panorama's folder
 % img = imread([dirName.plotSum dirName.statsSum]);

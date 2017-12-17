@@ -59,3 +59,4 @@ append(doc, tableObj{countTable});
 % append(doc, sect{5});
 
 close(doc);
+rptview(doc.OutputPath);

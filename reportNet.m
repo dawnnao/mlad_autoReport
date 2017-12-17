@@ -2,6 +2,21 @@ import mlreportgen.dom.*;
 headObj{3} = append(doc, Heading1('Detector performance'));
 headObj{3}.FontSize = '18';
 
+%% insert page number
+% layout = doc.CurrentPageLayout;
+% pageNum = PageNumber(1, 'n');
+% layout.Style = {pageNum};
+% 
+% % Create the footer and add a page number to it
+% pageFooter = DOCXPageFooter();
+% para = Paragraph();
+% para.HAlign = 'center';
+% append(para, Page());
+% 
+% % Add the page number to the footer
+% append(pageFooter, para);
+% layout.PageFooters = pageFooter;
+
 %% insert blank
 cBlank = cBlankNew; frag = 1;
 cBlankNew = cBlank + frag;

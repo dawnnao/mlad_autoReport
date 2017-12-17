@@ -2,7 +2,15 @@ import mlreportgen.dom.*;
 
 dirName.docFile = sprintf('%s%s--%s_sensor%s%s', dirName.home, date.start, date.end, sensorStr, netLayout);
 reportType = 'docx';
-doc = Document(dirName.docFile, reportType);
+templateName = 'Auto_Report_Template';
+doc = Document(dirName.docFile, reportType, templateName);
+open(doc);
+
+% change page size
+layout = doc.CurrentPageLayout;
+layout.PageSize.Orientation  ='portrait';
+layout.PageSize.Height = '11.69in';
+layout.PageSize.Width = '8.27in';
 
 % insert blank
 cBlank = 0; frag = 4;
@@ -73,3 +81,30 @@ sect{countSect}.SectionBreak = 'Next Page';
 sect{countSect}.PageSize.Height = '11.69in';
 sect{countSect}.PageSize.Width = '8.27in';
 append(doc, sect{countSect});
+
+
+%% insert page number
+% set format
+layout = doc.CurrentPageLayout;
+pageNum = PageNumber(1, 'n');
+layout.Style = {pageNum};
+
+% Create the footer and add a page number to it
+para = Paragraph();
+para.HAlign = 'center';
+append(para, Page()); % get current page and append
+
+% Add the page number to the footer
+pageFooter = DOCXPageFooter();
+append(pageFooter, para);
+layout.PageFooters = pageFooter;
+
+%% change page size
+layout = doc.CurrentPageLayout;
+layout.PageSize.Orientation  ='portrait';
+layout.PageSize.Height = '11.69in';
+layout.PageSize.Width = '8.27in';
+
+
+
+

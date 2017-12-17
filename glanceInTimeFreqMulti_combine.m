@@ -1,4 +1,4 @@
-function [sensorData, dateVec, dateSerial] = glanceInTimeFreqMulti_test(pathRead, sensorNum, dayStart, dayEnd, pathSave, prefix, fs)
+function [sensorData, dateVec, dateSerial] = glanceInTimeFreqMulti_combine(pathRead, sensorNum, dayStart, dayEnd, pathSave, prefix, fs)
 % DESCRIPTION:
 %   This is a subfunction of mlad.m, to read user specified data, and
 %   display progress in command window.
@@ -101,5 +101,5 @@ for day = dayStart : dayEnd
 end
 count = count-1;
 clear data
-
+close
 end
