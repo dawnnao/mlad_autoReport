@@ -12,14 +12,9 @@ end
 
 %% insert tabled images
 
-itemName = [sensor.label.name, 'Total anomalies', 'Total'];
+itemName = [sensor.label.name, 'total anomalies', 'total'];
 
-% table initialization
-countTable = countTable + 1;
-tableObj{countTable} = Table();
 rowText = TableRow();
-
-% make table head
 append(rowText, TableEntry('Anomaly patterns'));
 append(rowText, TableEntry('Quantity'));
 append(rowText, TableEntry('Ratio of anomalies (%)'));
@@ -27,8 +22,23 @@ append(rowText, TableEntry('Ratio of total (%)'));
 append(tableObj{countTable}, rowText);
 rowText = TableRow();
 
-% insert
+
+
+countTable = countTable + 1;
+tableObj{countTable} = Table();
+rowText = TableRow();
 c = 1;
+
+rowText = TableRow();
+append(rowText, TableEntry('Anomaly patterns'));
+append(rowText, TableEntry('Quantity'));
+append(rowText, TableEntry('Ratio of anomalies (%)'));
+append(rowText, TableEntry('Ratio of total (%)'));
+append(tableObj{countTable}, rowText);
+rowText = TableRow();
+
+
+
 for s = 1 : length(itemName)
     % append text to cell of table
     imgsize = size(imread([dirName.plotSPS dirName.statsPerSensor{s}]));

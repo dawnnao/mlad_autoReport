@@ -1197,16 +1197,30 @@ fprintf('\nSum-up anomaly stats image file location:\n%s\n', ...
     GetFullPath([dirName.plotSum dirName.statsSum]))
 close
 
+% % sum results to check ratios of each anomaly
+% sensor.ratioOfCategory = zeros(3,labelTotal+1);
+% for s = sensor.numVec
+%     for m = 1 : labelTotal
+%         sensor.ratioOfCategory(1,m) = sensor.ratioOfCategory(1,m) + length(cell2mat(sensor.count(m,s)));
+%     end
+% end
+% sensor.ratioOfCategory(1,end) = sum(sensor.ratioOfCategory(1,:));
+% sensor.ratioOfCategory(2,2:end-1) = (sensor.ratioOfCategory(1,2:end-1)./(sensor.ratioOfCategory(1,end)-sensor.ratioOfCategory(1,1))).*100;
+% sensor.ratioOfCategory(3,:) = (sensor.ratioOfCategory(1,:)./sensor.ratioOfCategory(1,end)).*100;
+
 % sum results to check ratios of each anomaly
-sensor.ratioOfCategory = zeros(3,labelTotal+1);
+sensor.ratioOfCategory = NaN(labelTotal+1, 3);
 for s = sensor.numVec
     for m = 1 : labelTotal
-        sensor.ratioOfCategory(1,m) = sensor.ratioOfCategory(1,m) + length(cell2mat(sensor.count(m,s)));
+        sensor.ratioOfCategory(m, 1) = sensor.ratioOfCategory(m, 1) + length(cell2mat(sensor.count(m,s)));
     end
 end
-sensor.ratioOfCategory(1,end) = sum(sensor.ratioOfCategory(1,:));
-sensor.ratioOfCategory(2,2:end-1) = (sensor.ratioOfCategory(1,2:end-1)./(sensor.ratioOfCategory(1,end)-sensor.ratioOfCategory(1,1))).*100;
-sensor.ratioOfCategory(3,:) = (sensor.ratioOfCategory(1,:)./sensor.ratioOfCategory(1,end)).*100;
+sensor.ratioOfCategory(end, 1) = sum(sensor.ratioOfCategory(:, 1)); % quantity
+sensor.ratioOfCategory(2:end-1, 2) = (sensor.ratioOfCategory(2:end-1, 1) ./ ...
+    (sensor.ratioOfCategory(end, 1)-sensor.ratioOfCategory(1, 1))) .*100; % ratio of anomalies
+sensor.ratioOfCategory(:, 3) = (sensor.ratioOfCategory(:, 1) ./ ...
+    sensor.ratioOfCategory(end, 1)) .*100; % ratio of total
+
 
 % report generation
 fprintf('\nGenerating report...\n')
