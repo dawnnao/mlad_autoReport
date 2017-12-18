@@ -37,7 +37,7 @@ sensor.ratioOfCategoryText = [tableHeader; sensor.ratioOfCategoryText];
 
 % table initialization
 countTable = countTable + 1;
-tableObj{countTable} = Table(sensor.ratioOfCategoryText, 'Figure_Content');
+tableObj{countTable} = Table(sensor.ratioOfCategoryText);
 % rowText = TableRow();
 
 
@@ -47,7 +47,11 @@ tableObj{countTable} = Table(sensor.ratioOfCategoryText, 'Figure_Content');
 %    RowSep('solid','2pt'), ...
 %    Width('50%')};
 
-tableObj{countTable}.Style = {RowHeight('0.4in')};
+
+
+
+tableObj{countTable}.Style = {RowHeight('0.4in')}; % LineSpacing(1)
+
 
 tableObj{countTable}.Border = 'solid';
 tableObj{countTable}.BorderWidth = '2pt';
