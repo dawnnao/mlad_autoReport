@@ -15,16 +15,16 @@ imageCap = labelName;
 
 countTable = countTable + 1;
 tableObj{countTable} = Table();
-rowImg{2} = TableRow();
-rowCap{2} = TableRow();
+rowImg{1} = TableRow();
+rowCap{1} = TableRow();
 c = 1;
 for l = 1 : labelTotal
     imgsize = size(imread([dirName.plotSPT dirName.statsPerLabel{l}]));
-    width = [num2str(2.6 * imgsize(2)/imgsize(1)) 'in'];
+    width = [num2str(2.5 * imgsize(2)/imgsize(1)) 'in'];
     imageSPT{l} = Image([dirName.plotSPT dirName.statsPerLabel{l}]);
-    imageSPT{l}.Height = '2.6in';
+    imageSPT{l}.Height = '2.5in';
     imageSPT{l}.Width = width;
-    append(rowImg{2}, TableEntry(imageSPT{l}));
+    append(rowImg{1}, TableEntry(imageSPT{l}));
     
     if exist('countFig', 'var'), countFig = countFig + 1;
     else countFig = 1; 
@@ -33,21 +33,29 @@ for l = 1 : labelTotal
     imageStatsPerLabelCap{l}.Bold = false;
     % imageNetPerformCap.FontSize = '18';
     imageStatsPerLabelCap{l}.HAlign = 'center';
-    append(rowCap{2}, TableEntry(imageStatsPerLabelCap{l}));
+    append(rowCap{1}, TableEntry(imageStatsPerLabelCap{l}));
     
     if mod(c,2) == 0 % change here to customize column number
-        append(tableObj{countTable},rowImg{2});
-        append(tableObj{countTable},rowCap{2});
-        rowImg{2} = TableRow();
-        rowCap{2} = TableRow();
+        append(tableObj{countTable},rowImg{1});
+        append(tableObj{countTable},rowCap{1});
+        rowImg{1} = TableRow();
+        rowCap{1} = TableRow();
     elseif l == labelTotal
-        append(tableObj{countTable},rowImg{2});
-        append(tableObj{countTable},rowCap{2});
+        append(tableObj{countTable},rowImg{1});
+        append(tableObj{countTable},rowCap{1});
     end
     c = c + 1;
 end
 tableObj{countTable}.HAlign = 'center';
 append(doc, tableObj{countTable});
+
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
 
 %% insert next section
 % countSect = countSect + 1;

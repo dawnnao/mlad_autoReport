@@ -25,6 +25,25 @@ for n = cBlank+1 : cBlankNew
     append(doc, blankObj{n});
 end
 
+%% brief introduction
+content = ['To automatically detect anomalies in the extensive SHM data, ' ...
+    'a small part of data are first randomlly selected and labelled to train a detector. ' ...
+    'The following are the training results.'];
+introObj = Paragraph(content);
+% introObj.Bold = false;
+% introObj.Style = {FontFamily('Times New Roman')};
+% introObj.FontSize = '12';
+introObj.HAlign = 'left';
+append(doc, introObj);
+
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert tabled images
 netPerformTemp = {[dirName.net sprintf('group-%d_netConfuseTrain.png', g)];
                   [dirName.net sprintf('group-%d_netConfuseVali.png', g)]};
@@ -33,8 +52,8 @@ imageCap = {'Training set';'Validation set'};
 
 countTable = countTable + 1;
 tableObj{countTable} = Table();
-rowImg{2} = TableRow();
-rowCap{2} = TableRow();
+rowImg{1} = TableRow();
+rowCap{1} = TableRow();
 c = 1;
 for l = 1 : 2
     imgsize = size(imread(netPerformTemp{l}));
@@ -42,7 +61,7 @@ for l = 1 : 2
     imageNetPerform{l} = Image(netPerformTemp{l});
     imageNetPerform{l}.Height = '2.6in';
     imageNetPerform{l}.Width = width;
-    append(rowImg{2}, TableEntry(imageNetPerform{l}));
+    append(rowImg{1}, TableEntry(imageNetPerform{l}));
     
     if exist('countFig', 'var'), countFig = countFig + 1;
     else countFig = 1; 
@@ -51,16 +70,16 @@ for l = 1 : 2
     imageNetPerformCap{l}.Bold = false;
     % imageNetPerformCap.FontSize = '18';
     imageNetPerformCap{l}.HAlign = 'center';
-    append(rowCap{2}, TableEntry(imageNetPerformCap{l}));
+    append(rowCap{1}, TableEntry(imageNetPerformCap{l}));
     
     if mod(c,2) == 0 % change here to customize column number
-        append(tableObj{countTable},rowImg{2});
-        append(tableObj{countTable},rowCap{2});
-        rowImg{2} = TableRow();
-        rowCap{2} = TableRow();
+        append(tableObj{countTable},rowImg{1});
+        append(tableObj{countTable},rowCap{1});
+        rowImg{1} = TableRow();
+        rowCap{1} = TableRow();
     elseif l == labelTotal
-        append(tableObj{countTable},rowImg{2});
-        append(tableObj{countTable},rowCap{2});
+        append(tableObj{countTable},rowImg{1});
+        append(tableObj{countTable},rowCap{1});
     end
     c = c + 1;
 end
@@ -81,8 +100,8 @@ imageCap = {'Accuracy'};
 
 countTable = countTable + 1;
 tableObj{countTable} = Table();
-rowImg{2} = TableRow();
-rowCap{2} = TableRow();
+rowImg{1} = TableRow();
+rowCap{1} = TableRow();
 c = 1;
 for l = 1
     imgsize = size(imread(netPerformTemp{l}));
@@ -90,7 +109,7 @@ for l = 1
     imageNetPerform{l} = Image(netPerformTemp{l});
     imageNetPerform{l}.Height = '2.6in';
     imageNetPerform{l}.Width = width;
-    append(rowImg{2}, TableEntry(imageNetPerform{l}));
+    append(rowImg{1}, TableEntry(imageNetPerform{l}));
     
     if exist('countFig', 'var'), countFig = countFig + 1;
     else countFig = 1; 
@@ -99,16 +118,16 @@ for l = 1
     imageNetPerformCap{l}.Bold = false;
     % imageNetPerformCap.FontSize = '18';
     imageNetPerformCap{l}.HAlign = 'center';
-    append(rowCap{2}, TableEntry(imageNetPerformCap{l}));
+    append(rowCap{1}, TableEntry(imageNetPerformCap{l}));
     
     if mod(c,1) == 0 % change here to customize column number
-        append(tableObj{countTable},rowImg{2});
-        append(tableObj{countTable},rowCap{2});
-        rowImg{2} = TableRow();
-        rowCap{2} = TableRow();
+        append(tableObj{countTable},rowImg{1});
+        append(tableObj{countTable},rowCap{1});
+        rowImg{1} = TableRow();
+        rowCap{1} = TableRow();
     elseif l == labelTotal
-        append(tableObj{countTable},rowImg{2});
-        append(tableObj{countTable},rowCap{2});
+        append(tableObj{countTable},rowImg{1});
+        append(tableObj{countTable},rowCap{1});
     end
     c = c + 1;
 end
@@ -116,7 +135,8 @@ tableObj{countTable}.HAlign = 'center';
 append(doc, tableObj{countTable});
 
 %% insert next section
-countSect = countSect + 1;
+% countSect = countSect + 1;
+countSect = 1;
 sect{countSect} = DOCXPageLayout;
 sect{countSect}.PageSize.Orientation = 'portrait';
 sect{countSect}.SectionBreak = 'Next Page';

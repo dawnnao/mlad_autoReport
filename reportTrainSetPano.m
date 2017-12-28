@@ -57,6 +57,14 @@ append(doc, tableObj{countTable});
 % paragraphObj.HAlign = 'center';
 % append(doc, paragraphObj);
 
+%% insert blank
+cBlank = cBlankNew; frag = 2;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert next section
 countSect = countSect + 1;
 sect{countSect} = DOCXPageLayout;
@@ -65,3 +73,4 @@ sect{countSect}.SectionBreak = 'Next Page';
 sect{countSect}.PageSize.Height = '8.27in';
 sect{countSect}.PageSize.Width = '11.69in';
 append(doc, sect{countSect});
+

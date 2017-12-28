@@ -97,13 +97,7 @@ append(doc, tableObj{countTable});
 % br{cPageBreak} = PageBreak();
 % append(doc ,br{cPageBreak}); cPageBreak = cPageBreak + 1;
 
-%% insert blank
-cBlank = cBlankNew; frag = 2;
-cBlankNew = cBlank + frag;
-for n = cBlank+1 : cBlankNew
-    blankObj{n} = Paragraph('');
-    append(doc, blankObj{n});
-end
+
 
 %% insert next section
 countSect = countSect + 1;

@@ -54,7 +54,7 @@ for n = cBlank+1 : cBlankNew
     append(doc, blankObj{n});
 end
 
-arthurObj = Paragraph('Center of Structural Monitoring and Control');
+arthurObj = Paragraph('Center of Data Science and Engineering for Civil Infrastructure | HIT');
 arthurObj.Bold = false;
 arthurObj.Style = {FontFamily('Times New Roman')};
 arthurObj.FontSize = '20';
@@ -90,13 +90,13 @@ countTable = 0;
 % append(doc, sizeCurrent);
 
 %% insert next section
-countSect = 1;
-sect{countSect} = DOCXPageLayout;
-sect{countSect}.PageSize.Orientation = 'portrait';
-sect{countSect}.SectionBreak = 'Next Page';
-sect{countSect}.PageSize.Height = '11.69in';
-sect{countSect}.PageSize.Width = '8.27in';
-append(doc, sect{countSect});
+% countSect = 1;
+% sect{countSect} = DOCXPageLayout;
+% sect{countSect}.PageSize.Orientation = 'portrait';
+% sect{countSect}.SectionBreak = 'Next Page';
+% sect{countSect}.PageSize.Height = '14in';
+% sect{countSect}.PageSize.Width = '8.5in';
+% append(doc, sect{countSect});
 
 
 %% insert page number
@@ -115,11 +115,11 @@ pageFooter = DOCXPageFooter();
 append(pageFooter, para);
 layout.PageFooters = pageFooter;
 
-%% change page size
-layout = doc.CurrentPageLayout;
-layout.PageSize.Orientation  ='portrait';
-layout.PageSize.Height = '11.69in';
-layout.PageSize.Width = '8.27in';
+% %% change page size
+% layout = doc.CurrentPageLayout;
+% layout.PageSize.Orientation  ='portrait';
+% layout.PageSize.Height = '14in';
+% layout.PageSize.Width = '8.5in';
 
 
 

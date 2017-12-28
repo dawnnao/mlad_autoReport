@@ -47,6 +47,14 @@ row{1} = TableRow();
 tableObj{countTable}.HAlign = 'center';
 append(doc, tableObj{countTable});
 
+%% insert blank
+cBlank = cBlankNew; frag = 2;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert next section
 countSect = countSect + 1;
 sect{countSect} = DOCXPageLayout;

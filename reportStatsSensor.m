@@ -2,6 +2,10 @@ import mlreportgen.dom.*;
 headObj{2} = append(doc, Heading1('Statistics by sensor'));
 headObj{2}.FontSize = '18';
 
+section = doc.CurrentDOCXSection;
+section.PageMargins.Top = '0.75in';
+section.PageMargins.Bottom = '0.75in';
+
 %% insert blank
 cBlank = cBlankNew; frag = 1;
 cBlankNew = cBlank + frag;
@@ -22,7 +26,7 @@ rowCap{1} = TableRow();
 c = 1;
 for s = sensor.numVec
     imgsize = size(imread([dirName.plotSPS dirName.statsPerSensor{s}]));
-    width = [num2str(2.5 * imgsize(2)/imgsize(1)) 'in'];
+    width = [num2str(2.2 * imgsize(2)/imgsize(1)) 'in'];
     imageSPS{s} = Image([dirName.plotSPS dirName.statsPerSensor{s}]);
     imageSPS{s}.Height = '2.2in';
     imageSPS{s}.Width = width;
@@ -53,6 +57,14 @@ append(doc, tableObj{countTable});
 
 % br{cPageBreak} = PageBreak();
 % append(doc ,br{cPageBreak}); cPageBreak = cPageBreak + 1;
+
+%% insert blank
+cBlank = cBlankNew; frag = 2;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
 
 %% insert next section
 countSect = countSect + 1;

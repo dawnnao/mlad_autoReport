@@ -31,3 +31,11 @@ sensor = mlad_autoReport_unity_jumpTest(readRoot, saveRoot, sensorNum, ...
     dateStart, dateEnd, k, sensorClustRatio, [], fs, step, [], seed, ...
     maxEpoch, batchSize, sizeFilter, numFilter, gpuOrCpu);
 
+
+
+
+
+
+
+
+
