@@ -10,6 +10,25 @@ for n = cBlank+1 : cBlankNew
     append(doc, blankObj{n});
 end
 
+%% brief introduction
+content = ['To independently check the distribution of each anomaly pattern, ' ...
+    'a set of pattern-wise 3D bar plots are given in the section, which present the ' ...
+    'time-space distribution of each type of anomaly.'];
+introObj = Paragraph(content);
+% introObj.Bold = false;
+% introObj.Style = {FontFamily('Times New Roman')};
+% introObj.FontSize = '12';
+introObj.HAlign = 'left';
+append(doc, introObj);
+
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert tabled images
 imageCap = labelName;
 

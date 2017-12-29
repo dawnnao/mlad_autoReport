@@ -10,6 +10,24 @@ for n = cBlank+1 : cBlankNew
     append(doc, blankObj{n});
 end
 
+%% brief introduction
+content = ['In the following table, the amount of each type of anamolies, as well as the normal data, ' ...
+    'is respectively counted. In addition, the in-anomaly ratio and in-total ratio are calculated.'];
+introObj = Paragraph(content);
+% introObj.Bold = false;
+% introObj.Style = {FontFamily('Times New Roman')};
+% introObj.FontSize = '12';
+introObj.HAlign = 'left';
+append(doc, introObj);
+
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert counting table
 
 % make table contents

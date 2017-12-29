@@ -2,7 +2,25 @@ import mlreportgen.dom.*;
 headObj{4} = append(doc, Heading1('Statistics in total'));
 headObj{4}.FontSize = '18';
 
-% insert blank
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
+%% brief introduction
+content = ['A channel-wise bar plot is presented in the following figure, ' ...
+    'which can indicate the data quality of each channel. Data patterns are marked by colors.'];
+introObj = Paragraph(content);
+% introObj.Bold = false;
+% introObj.Style = {FontFamily('Times New Roman')};
+% introObj.FontSize = '12';
+introObj.HAlign = 'left';
+append(doc, introObj);
+
+%% insert blank
 cBlank = cBlankNew; frag = 1;
 cBlankNew = cBlank + frag;
 for n = cBlank+1 : cBlankNew

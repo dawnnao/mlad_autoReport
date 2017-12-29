@@ -10,6 +10,24 @@ for n = cBlank+1 : cBlankNew
     append(doc, blankObj{n});
 end
 
+%% brief introduction
+content = ['The following figure shows the locations of each data section in training set. ' ...
+    'Different Colors indicate the data types. Note that the unselected data are gray.'];
+introObj = Paragraph(content);
+% introObj.Bold = false;
+% introObj.Style = {FontFamily('Times New Roman')};
+% introObj.FontSize = '12';
+introObj.HAlign = 'left';
+append(doc, introObj);
+
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert tabled images
 dirName.plotPanoTrainSet = [dirName.mat 'panorama/']; % temp
 dirName.panopanoTrainSet = [sprintf('%s--%s_sensor_all%s', date.start, date.end, sensorStr) ...
