@@ -221,8 +221,8 @@ for g = 1 : groupTotal
 end
 
 % update work flow status
-sensor.status{s} = {'1-Glance' '2-Label' '3-Train' '4-Detect' '5-Inspect' ...
-                     ; 0 0 0 0 0};
+sensor.status{s} = {'1-Glance' '2-Label' '3-Train' '4-Detect' '5-Summary' '6-Auto-report'...
+                     ; 0 0 0 0 0 0};
 sensor.status{s}(2,1) = {1};
 status = sensor.status{s};
 savePath = [dirName.home dirName.status];
@@ -1213,21 +1213,6 @@ sensor.ratioOfCategory([1,end], 2) = NaN;
 sensor.ratioOfCategory(:, 3) = (sensor.ratioOfCategory(:, 1) ./ ...
     sensor.ratioOfCategory(end, 1)) .*100; % ratio of total
 
-
-
-
-% report generation
-fprintf('\nGenerating report... ')
-reportCover;
-reportNet;
-reportTrainSetPano;
-reportPano;
-reportTable;
-reportStatsTotal;
-reportStatsSensor;
-reportStatsLabel;
-fprintf('Done.\n')
-
 % % crop legend to panorama's folder
 % img = imread([dirName.plotSum dirName.statsSum]);
 % if ispc
@@ -1295,6 +1280,73 @@ if isempty(step)
     end
 elseif step == 5, fprintf('\nFinish.\n'), return
 elseif ismember(6, step), fprintf('\n%s\n\n\n', tail)
+end
+clear head tail savePath
+
+end
+
+%% 6 auto-report generation
+if ismember(6, step) || isempty(step)
+% update new parameters and load training sets
+if ~isempty(step) && step(1) == 6
+    newP{2,1} = sensor.pSize;
+    newP{3,1} = step;
+    newP{4,1} = sensor.label.name;
+    newP{5,1} = readRoot;
+    newP{6,1} = dirName.home;
+    
+    readPath = [dirName.home dirName.file];
+    fprintf('Loading...\n')
+    load(readPath)
+    
+    sensor.pSize =  newP{2,1};
+    step = newP{3,1};
+    sensor.label.name = newP{4,1};
+    readRoot = newP{5,1};
+    dirName.home = newP{6,1};
+    clear newP
+end
+
+% report generation
+fprintf('\nGenerating report... ')
+reportCover;
+reportNet;
+reportTrainSetPano;
+reportPano;
+reportTable;
+reportStatsTotal;
+reportStatsSensor;
+reportStatsLabel;
+fprintf('Done.\n')
+
+% update work flow status
+status(2,6) = {1};
+savePath = [dirName.home dirName.status];
+if exist(savePath, 'file'), delete(savePath); end
+save(savePath, 'status', '-v7.3')
+
+% ask go on or stop
+head = 'Continue to step7?';
+tail = 'Continue to...';
+savePath = [dirName.home dirName.file];
+fprintf('\nSaving results...\nLocation: %s\n', savePath)
+if exist(savePath, 'file'), delete(savePath); end
+save(savePath, '-v7.3')
+if isempty(step)
+    rightInput = 0;
+    while rightInput == 0
+        fprintf('\n%s\n', head)
+        prompt = '\ny(yes)/n(no): ';
+        go = input(prompt,'s');
+        if strcmp(go,'y') || strcmp(go,'yes') || strcmp(go,'Y')
+            rightInput = 1; fprintf('\n%s\n\n\n', tail)
+        elseif strcmp(go,'n') || strcmp(go,'no') || strcmp(go,'N')
+            rightInput = 1; fprintf('\nFinish.\n'), return
+        else fprintf('Invalid input! Please re-input.\n')
+        end
+    end
+elseif step == 6, fprintf('\nFinish.\n'), return
+elseif ismember(7, step), fprintf('\n%s\n\n\n', tail)
 end
 clear head tail savePath
 

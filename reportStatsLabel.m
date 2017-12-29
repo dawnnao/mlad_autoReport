@@ -77,7 +77,9 @@ for n = cBlank+1 : cBlankNew
 end
 
 %% insert next section
-% countSect = countSect + 1;
+% if exist('countSect', 'var'), countSect = countSect + 1;
+% else countSect = 1; 
+% end
 % sect{5} = DOCXPageLayout;
 % sect{5}.PageSize.Orientation = 'portrait';
 % sect{5}.SectionBreak = 'Next Page';

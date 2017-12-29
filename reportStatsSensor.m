@@ -3,8 +3,9 @@ headObj{2} = append(doc, Heading1('Statistics by sensor'));
 headObj{2}.FontSize = '18';
 
 section = doc.CurrentDOCXSection;
-section.PageMargins.Top = '0.75in';
-section.PageMargins.Bottom = '0.75in';
+section.PageMargins.Top = '0.5in';
+section.PageMargins.Bottom = '0.5in';
+section.PageMargins.Footer = '0.3in';
 
 %% insert blank
 cBlank = cBlankNew; frag = 1;
@@ -15,9 +16,9 @@ for n = cBlank+1 : cBlankNew
 end
 
 %% brief introduction
-content = ['In this section, anomaly distribution a . ' ...
-    'a set of pattern-wise 3D bar plots are given in the section, which present the ' ...
-    'time-space distribution of each type of anomaly.'];
+content = ['In this section, the anomaly detection results are presented channel by channel. ' ...
+    'In each subfigure, anomalies are counted monthly by type.' ...
+    'Legend of color is given in section ''Statistics in total''.'];
 introObj = Paragraph(content);
 % introObj.Bold = false;
 % introObj.Style = {FontFamily('Times New Roman')};
@@ -45,9 +46,9 @@ rowCap{1} = TableRow();
 c = 1;
 for s = sensor.numVec
     imgsize = size(imread([dirName.plotSPS dirName.statsPerSensor{s}]));
-    width = [num2str(2.2 * imgsize(2)/imgsize(1)) 'in'];
+    width = [num2str(2 * imgsize(2)/imgsize(1)) 'in'];
     imageSPS{s} = Image([dirName.plotSPS dirName.statsPerSensor{s}]);
-    imageSPS{s}.Height = '2.2in';
+    imageSPS{s}.Height = '2in';
     imageSPS{s}.Width = width;
     append(rowImg{1}, TableEntry(imageSPS{s}));
     
@@ -60,7 +61,7 @@ for s = sensor.numVec
     imageStatsPerSensorCap{s}.HAlign = 'center';
     append(rowCap{1}, TableEntry(imageStatsPerSensorCap{s}));
     
-    if mod(c,3) == 0 % change here to customize column number
+    if mod(c,4) == 0 % change here to customize column number
         append(tableObj{countTable},rowImg{1});
         append(tableObj{countTable},rowCap{1});
         rowImg{1} = TableRow();
@@ -86,7 +87,9 @@ for n = cBlank+1 : cBlankNew
 end
 
 %% insert next section
-countSect = countSect + 1;
+if exist('countSect', 'var'), countSect = countSect + 1;
+else countSect = 1; 
+end
 sect{countSect} = DOCXPageLayout;
 sect{countSect}.PageSize.Orientation = 'portrait';
 sect{countSect}.SectionBreak = 'Next Page';

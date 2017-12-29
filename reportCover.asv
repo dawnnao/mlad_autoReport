@@ -9,8 +9,8 @@ open(doc);
 % change page size
 layout = doc.CurrentPageLayout;
 layout.PageSize.Orientation  ='portrait';
-layout.PageSize.Height = '11in'; % '11.69in';
-layout.PageSize.Width = '8.5in'; % '8.27in';
+layout.PageSize.Height = ''; % '11.69in';
+layout.PageSize.Width = '''8.27in';
 
 % insert blank
 cBlank = 0; frag = 6;
@@ -47,7 +47,7 @@ titleObj{2}.HAlign = 'center';
 append(doc, titleObj{2});
 
 % insert blank
-cBlank = cBlankNew; frag = 26;
+cBlank = cBlankNew; frag = 24;
 cBlankNew = cBlank + frag;
 for n = cBlank+1 : cBlankNew
     blankObj{n} = Paragraph('');
@@ -90,9 +90,7 @@ countTable = 0;
 % append(doc, sizeCurrent);
 
 %% insert next section
-if exist('countSect', 'var'), countSect = countSect + 1;
-else countSect = 1; 
-end
+countSect = 1;
 sect{countSect} = DOCXPageLayout;
 % sect{countSect}.PageSize.Orientation = 'portrait';
 sect{countSect}.SectionBreak = 'Next Page';
@@ -100,7 +98,6 @@ sect{countSect}.SectionBreak = 'Next Page';
 % sect{countSect}.PageSize.Width = '8.27in';
 append(doc, sect{countSect});
 
-% % just add a pagebreak
 % br = PageBreak();
 % append(doc,br);
 

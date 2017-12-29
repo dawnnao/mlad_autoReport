@@ -12,7 +12,8 @@ end
 
 %% brief introduction
 content = ['The following figure shows the locations of each data section in training set. ' ...
-    'Different Colors indicate the data types. Note that the unselected data are gray.'];
+    'Different Colors indicate the data types. Note that the unselected data are gray. ' ...
+    'Legend of color is given in section ''Statistics in total''.'];
 introObj = Paragraph(content);
 % introObj.Bold = false;
 % introObj.Style = {FontFamily('Times New Roman')};
@@ -84,7 +85,9 @@ for n = cBlank+1 : cBlankNew
 end
 
 %% insert next section
-countSect = countSect + 1;
+if exist('countSect', 'var'), countSect = countSect + 1;
+else countSect = 1; 
+end
 sect{countSect} = DOCXPageLayout;
 sect{countSect}.PageSize.Orientation = 'landscape';
 sect{countSect}.SectionBreak = 'Next Page';

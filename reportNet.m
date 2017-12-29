@@ -1,21 +1,24 @@
 import mlreportgen.dom.*;
-headObj{3} = append(doc, Heading1('Detector performance'));
-headObj{3}.FontSize = '18';
 
 %% insert page number
-% layout = doc.CurrentPageLayout;
-% pageNum = PageNumber(1, 'n');
-% layout.Style = {pageNum};
-% 
-% % Create the footer and add a page number to it
-% pageFooter = DOCXPageFooter();
-% para = Paragraph();
-% para.HAlign = 'center';
-% append(para, Page());
-% 
-% % Add the page number to the footer
-% append(pageFooter, para);
-% layout.PageFooters = pageFooter;
+% set format
+layout = doc.CurrentPageLayout;
+pageNum = PageNumber(1, 'n');
+layout.Style = {pageNum};
+
+% Create the footer and add a page number to it
+para = Paragraph();
+para.HAlign = 'center';
+append(para, Page()); % get current page and append
+
+% Add the page number to the footer
+pageFooter = DOCXPageFooter();
+append(pageFooter, para);
+layout.PageFooters = pageFooter;
+
+%% add heading1
+headObj{3} = append(doc, Heading1('Detector performance'));
+headObj{3}.FontSize = '18';
 
 %% insert blank
 cBlank = cBlankNew; frag = 1;
@@ -135,8 +138,9 @@ tableObj{countTable}.HAlign = 'center';
 append(doc, tableObj{countTable});
 
 %% insert next section
-% countSect = countSect + 1;
-countSect = 1;
+if exist('countSect', 'var'), countSect = countSect + 1;
+else countSect = 1; 
+end
 sect{countSect} = DOCXPageLayout;
 sect{countSect}.PageSize.Orientation = 'portrait';
 sect{countSect}.SectionBreak = 'Next Page';

@@ -10,6 +10,26 @@ for n = cBlank+1 : cBlankNew
     append(doc, blankObj{n});
 end
 
+%% brief introduction
+content = ['The anomaly detection results are given in the following figure, ' ...
+    'which is a panorama in time-space. Colors denote different types of anomaly. ' ...
+    'In this figure, data quality and features of distribution can be inspected. ' ...
+    'Legend of color is given in section ''Statistics in total''.'];
+introObj = Paragraph(content);
+% introObj.Bold = false;
+% introObj.Style = {FontFamily('Times New Roman')};
+% introObj.FontSize = '12';
+introObj.HAlign = 'left';
+append(doc, introObj);
+
+%% insert blank
+cBlank = cBlankNew; frag = 1;
+cBlankNew = cBlank + frag;
+for n = cBlank+1 : cBlankNew
+    blankObj{n} = Paragraph('');
+    append(doc, blankObj{n});
+end
+
 %% insert tabled images
 panoRotate = imread([dirName.plotPano dirName.panopano]);
 % panoRotate = imrotate(panoRotate, -90);
@@ -36,7 +56,7 @@ if exist('countFig', 'var'), countFig = countFig + 1;
 else countFig = 1; 
 end
 
-imageName = Paragraph(sprintf('Fig %d. Panorama', countFig));
+imageName = Paragraph(sprintf('Fig %d. Panorama of detection results', countFig));
 imageName.Bold = false;
 % imageName.FontSize = '18';
 imageName.HAlign = 'center';
@@ -56,7 +76,9 @@ for n = cBlank+1 : cBlankNew
 end
 
 %% insert next section
-countSect = countSect + 1;
+if exist('countSect', 'var'), countSect = countSect + 1;
+else countSect = 1; 
+end
 sect{countSect} = DOCXPageLayout;
 sect{countSect}.PageSize.Orientation = 'landscape';
 sect{countSect}.SectionBreak = 'Next Page';
