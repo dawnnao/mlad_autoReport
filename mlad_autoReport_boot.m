@@ -1,14 +1,14 @@
 clear;clc;close all;
 
 % win
-readRoot = 'C:/dataArchiveTemp/Sutong/';
-saveRoot = 'D:/results/mlad_autoReport/';
+% readRoot = 'C:/dataArchiveTemp/Sutong/';
+% saveRoot = 'D:/results/mlad_autoReport/';
 % saveRoot = 'D:/results/results_mlad_withKnownLabel/round2/mlad111/';
 
 % mac
 % readRoot = '/Volumes/BOOTCAMP/data/Sutong/';
-% readRoot = '/Users/zhiyitang/Programming/data/Sutong/';
-% saveRoot = '/Users/zhiyitang/Programming/results/mlad111_forReport/';
+readRoot = '/Users/zhiyitang/Programming/data/Sutong/';
+saveRoot = '/Users/zhiyitang/Programming/results/';
 
 sensorNum = [1:38];
 dateStart = '2012-02-01';

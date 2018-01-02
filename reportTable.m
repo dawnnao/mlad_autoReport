@@ -11,7 +11,7 @@ for n = cBlank+1 : cBlankNew
 end
 
 %% brief introduction
-content = ['In the following table, the amount of each type of anamolies, as well as the normal data, ' ...
+content = ['In the following table, the amount of each type of anomalies, as well as the normal data, ' ...
     'is respectively counted. In addition, the in-anomaly ratio and in-total ratio are calculated.'];
 introObj = Paragraph(content);
 % introObj.Bold = false;
