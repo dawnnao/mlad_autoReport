@@ -1307,6 +1307,9 @@ if ~isempty(step) && step(1) == 6
     clear newP
 end
 
+% update paths
+run('pathUpdate.m')
+
 % report generation
 fprintf('\nGenerating report... ')
 reportCover;
