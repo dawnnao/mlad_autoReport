@@ -9,8 +9,8 @@ open(doc);
 % change page size
 layout = doc.CurrentPageLayout;
 layout.PageSize.Orientation  ='portrait';
-layout.PageSize.Height = '11in'; % '11.69in';
-layout.PageSize.Width = '8.5in'; % '8.27in';
+layout.PageSize.Height = '29.7cm'; % '11.69in' '11in';
+layout.PageSize.Width = '20.99cm'; % '8.27in'  '8.5in';
 
 % insert blank
 cBlank = 0; frag = 6;
@@ -94,10 +94,10 @@ if exist('countSect', 'var'), countSect = countSect + 1;
 else countSect = 1; 
 end
 sect{countSect} = DOCXPageLayout;
-% sect{countSect}.PageSize.Orientation = 'portrait';
+sect{countSect}.PageSize.Orientation = 'portrait';
 sect{countSect}.SectionBreak = 'Next Page';
-% sect{countSect}.PageSize.Height = '11.69in';
-% sect{countSect}.PageSize.Width = '8.27in';
+sect{countSect}.PageSize.Height = '29.7cm'; % a4: '11.69in'
+sect{countSect}.PageSize.Width = '20.99cm'; % a4: '8.27in'
 append(doc, sect{countSect});
 
 % % just add a pagebreak

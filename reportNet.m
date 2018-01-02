@@ -30,7 +30,7 @@ end
 
 %% brief introduction
 content = ['To automatically detect anomalies in the extensive SHM data, ' ...
-    'a small part of data are first randomlly selected and labelled to train a detector. ' ...
+    'partial data are randomly selected and labelled to train a detector. ' ...
     'The following are the training results.'];
 introObj = Paragraph(content);
 % introObj.Bold = false;
@@ -142,7 +142,7 @@ if exist('countSect', 'var'), countSect = countSect + 1;
 else countSect = 1; 
 end
 sect{countSect} = DOCXPageLayout;
-sect{countSect}.PageSize.Orientation = 'portrait';
+sect{countSect}.PageSize.Orientation = 'landscape';
 sect{countSect}.SectionBreak = 'Next Page';
 sect{countSect}.PageSize.Height = '8.27in';
 sect{countSect}.PageSize.Width = '11.69in';
