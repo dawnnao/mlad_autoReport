@@ -1,4 +1,4 @@
-function sensor = mlad_autoReport_unity_jumpTest(readRoot, saveRoot, sensorNum, ...
+function sensor = mlad_main(readRoot, saveRoot, sensorNum, ...
     dateStart, dateEnd, k, sensorClustRatio, sensorPSize, fs, step, labelName, ...
     seed, maxEpoch, batchSize, sizeFilter, numFilter, cpuOrGpu)
 % DESCRIPTION:
@@ -36,20 +36,20 @@ function sensor = mlad_autoReport_unity_jumpTest(readRoot, saveRoot, sensorNum, 
 %                 share a network, sensorNum = {[1], [2,3]}
 %   dateStart (char) - start date of data, input format: 'yyyy-mm-dd'
 %   dateEnd (char) - end date of data, input format: 'yyyy-mm-dd'
-%   k - number of clusters to make
+%   k (double/cell) - number of clusters to make
 %   sensorClustRatio (double) - (clusters' size)/(the whole data set size)
 %   sensorPSize (double) - data points in a packet in wireless transmission
 %                          (if a packet loses in transmission, all points
 %                           within become outliers)
 %   step (double) - choose steps, including: '1-Glance' '2-Label' '3-Train'
 %                                            '4-Detect' '5-Inspect
-%   labelName - user specified label names
-%   seed - seed of random number generator for reproducible analysis
-%   maxEpoch - epoch of training convolutional neural network (CNN)
-%   batchSize - samples batch size for each iteration in training CNN
-%   sizeFilter - size of the filter of the first layer in CNN (side length of a square)
-%   numFilter - number of the filter of the first layer in CNN
-%   cpuOrGpu - use cpu or gpu when training CNN, input format: 'cpu' or 'gpu'
+%   labelName (cell) - user specified label names
+%   seed (double) - seed of random number generator for reproducible analysis
+%   maxEpoch (double) - epoch of training convolutional neural network (CNN)
+%   batchSize (double) - samples batch size for each iteration in training CNN
+%   sizeFilter (double) - size of the filter of the first layer in CNN (side length of a square)
+%   numFilter (double) - number of the filter of the first layer in CNN
+%   cpuOrGpu (char) - use cpu or gpu when training CNN, input format: 'cpu' or 'gpu'
 % 
 % DEFAULT VALUES:
 %   sensorClustRatio = 10/100
@@ -375,70 +375,70 @@ while goNext == 0
 																				 
         end
         
-%         for pBig = 1 : ceil(nIdxTemp/NP) % overview plot
-%             ticPlot = tic;
-%             figure('position', [40, 40, 2000, 960])
-%             fprintf('\nPloting... Cluster %d, sample %d-%d (total %d)\n', ...
-%                 kk, 100*(pBig-1)+1, min([nIdxTemp, 100*pBig]), nIdxTemp)
-%             for pSmall = 1 : NP
-%                 count = count + 1;
-%                 if pSmall == 1
-%                    set(gcf,'Name', sprintf('cluster %d, sample %d-%d (total %d)', ...
-%                        kk, 100*(pBig-1)+1, min([nIdxTemp, 100*pBig]), nIdxTemp));
-%                 end
-%                 % plot each sample in overview
-%                 if count <= nIdxTemp
-%                    s = size(clust.data(:, idxTemp(count)), 1);
-%                    subaxis(10,20, 2*pSmall-1, 'S',0.005, 'M',0.005);
-%                    imshow(reshape(clust.data(1:s/2, idxTemp(count)), [sqrt(s/2) sqrt(s/2)]));
-%                    subaxis(10,20, 2*pSmall, 'S',0.005, 'M',0.005);
-%                    imshow(reshape(clust.data(s/2+1:end, idxTemp(count)), [sqrt(s/2) sqrt(s/2)]));
-%                 else
-%                    subaxis(10,20, 2*pSmall-1, 'S',0.005, 'M',0.005);
-%                    imshow([]);
-%                    subaxis(10,20, 2*pSmall, 'S',0.005, 'M',0.005);
-%                    imshow([]);
-%                 end
-%             end
-%             tocPlot = toc(ticPlot);
-%             tPlotRemain = tocPlot * ((k-kk)*numPlotPerClust + numPlotPerClust - countPlot - 1);
-%             [hours, mins, secs] = sec2hms(tPlotRemain);
-%             fprintf('About %02dh%02dm%05.2fs left for clusters overview.\n', hours, mins, secs)
-%             
-%             fprintf('\nSaving plot...\n')
-%             saveas(gcf, [dirName.clustMain dirName.clustSub sprintf('cluster_%d_sample_%04d-%04d_total-%04d.tif', ...
-%                 kk, 100*(pBig-1)+1, min([nIdxTemp, 100*pBig]), nIdxTemp)]);
-%             close
-%             
-%             rightInput = 0;
-%             while rightInput == 0
-%                 
-%                 countPlot = countPlot + 1;
-%                 if countPlot < numPlotPerClust
-%                     rightInput = 1;
-%                 elseif countPlot == numPlotPerClust
-%                     rightInput = 2;
-%                 else
-%                     fprintf('Invalid input! Please re-input.\n')
-%                 end
-%                 
-%                 % human control
-%                 str = input('N/n: next big plot\nJ/j: jump to next cluster\nInput: ', 's');
-%                 if strcmp(str,'n') || strcmp(str,'N')
-%                     rightInput = 1;
-%                 elseif strcmp(str,'j') || strcmp(str,'J')
-%                     rightInput = 2;
-%                 else
-%                     fprintf('Invalid input! Please re-input.\n')
-%                 end
-%                 
-%             end
-% 
-%             if rightInput == 2
-%                 break % to next cluster
-%             end
-%             
-%         end
+        for pBig = 1 : ceil(nIdxTemp/NP) % overview plot
+            ticPlot = tic;
+            figure('position', [40, 40, 2000, 960])
+            fprintf('\nPloting... Cluster %d, sample %d-%d (total %d)\n', ...
+                kk, 100*(pBig-1)+1, min([nIdxTemp, 100*pBig]), nIdxTemp)
+            for pSmall = 1 : NP
+                count = count + 1;
+                if pSmall == 1
+                   set(gcf,'Name', sprintf('cluster %d, sample %d-%d (total %d)', ...
+                       kk, 100*(pBig-1)+1, min([nIdxTemp, 100*pBig]), nIdxTemp));
+                end
+                % plot each sample in overview
+                if count <= nIdxTemp
+                   s = size(clust.data(:, idxTemp(count)), 1);
+                   subaxis(10,20, 2*pSmall-1, 'S',0.005, 'M',0.005);
+                   imshow(reshape(clust.data(1:s/2, idxTemp(count)), [sqrt(s/2) sqrt(s/2)]));
+                   subaxis(10,20, 2*pSmall, 'S',0.005, 'M',0.005);
+                   imshow(reshape(clust.data(s/2+1:end, idxTemp(count)), [sqrt(s/2) sqrt(s/2)]));
+                else
+                   subaxis(10,20, 2*pSmall-1, 'S',0.005, 'M',0.005);
+                   imshow([]);
+                   subaxis(10,20, 2*pSmall, 'S',0.005, 'M',0.005);
+                   imshow([]);
+                end
+            end
+            tocPlot = toc(ticPlot);
+            tPlotRemain = tocPlot * ((k-kk)*numPlotPerClust + numPlotPerClust - countPlot - 1);
+            [hours, mins, secs] = sec2hms(tPlotRemain);
+            fprintf('About %02dh%02dm%05.2fs left for clusters overview.\n', hours, mins, secs)
+            
+            fprintf('\nSaving plot...\n')
+            saveas(gcf, [dirName.clustMain dirName.clustSub sprintf('cluster_%d_sample_%04d-%04d_total-%04d.tif', ...
+                kk, 100*(pBig-1)+1, min([nIdxTemp, 100*pBig]), nIdxTemp)]);
+            close
+            
+            rightInput = 0;
+            while rightInput == 0
+                
+                countPlot = countPlot + 1;
+                if countPlot < numPlotPerClust
+                    rightInput = 1;
+                elseif countPlot == numPlotPerClust
+                    rightInput = 2;
+                else
+                    fprintf('Invalid input! Please re-input.\n')
+                end
+                
+                % human control
+                str = input('N/n: next big plot\nJ/j: jump to next cluster\nInput: ', 's');
+                if strcmp(str,'n') || strcmp(str,'N')
+                    rightInput = 1;
+                elseif strcmp(str,'j') || strcmp(str,'J')
+                    rightInput = 2;
+                else
+                    fprintf('Invalid input! Please re-input.\n')
+                end
+                
+            end
+
+            if rightInput == 2
+                break % to next cluster
+            end
+            
+        end
     end
     
     % labeling
@@ -756,12 +756,6 @@ for g = 1 : groupTotal
                   convolution2dLayer(sizeFilter, numFilter)
                   reluLayer
                   maxPooling2dLayer(2,'Stride',2)
-
-%                   % design 2
-%                   convolution2dLayer(10, numFilter)
-%                   convolution2dLayer(6, 40)
-%                   reluLayer
-%                   maxPooling2dLayer(2,'Stride',2)
                   
                   fullyConnectedLayer(feature{g}.label.activeLabelNum)
                   softmaxLayer
@@ -1182,19 +1176,6 @@ fprintf('\nSum-up anomaly stats image file location:\n%s\n', ...
     GetFullPath([dirName.plotSum dirName.statsSum]))
 close
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Plot end
-
-% % sum results to check ratios of each anomaly
-% sensor.ratioOfCategory = zeros(3,labelTotal+1);
-% for s = sensor.numVec
-%     for m = 1 : labelTotal
-%         sensor.ratioOfCategory(1,m) = sensor.ratioOfCategory(1,m) + length(cell2mat(sensor.count(m,s)));
-%     end
-% end
-% sensor.ratioOfCategory(1,end) = sum(sensor.ratioOfCategory(1,:));
-% sensor.ratioOfCategory(2,2:end-1) = (sensor.ratioOfCategory(1,2:end-1)./(sensor.ratioOfCategory(1,end)-sensor.ratioOfCategory(1,1))).*100;
-% sensor.ratioOfCategory(3,:) = (sensor.ratioOfCategory(1,:)./sensor.ratioOfCategory(1,end)).*100;
-
 % sum results to check ratios of each anomaly
 sensor.ratioOfCategory = zeros(labelTotal+2, 3);
 % summation of each type of anomaly
@@ -1212,40 +1193,6 @@ sensor.ratioOfCategory([1,end], 2) = NaN;
 
 sensor.ratioOfCategory(:, 3) = (sensor.ratioOfCategory(:, 1) ./ ...
     sensor.ratioOfCategory(end, 1)) .*100; % ratio of total
-
-% % crop legend to panorama's folder
-% img = imread([dirName.plotSum dirName.statsSum]);
-% if ispc
-% %     imgLegend = imcrop(img, [646.5 42.5 172 300]);
-%     imgLegend = imcrop(img, [596.5 36.5 272 232]);
-% elseif ismac
-% %     imgLegend = imcrop(img, [660.5 42.5 160 229]);
-%     imgLegend = imcrop(img, [882.5 57.5 204 280]);
-% end
-% figure, imshow(imgLegend)
-% saveas(gcf, [dirName.plotPano 'legend.png']); close
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% temp
-% sensorLabelNetSerial = [];
-% for mTemp = 1 : 38
-%     sensorLabelNetSerial = cat(1, sensorLabelNetSerial, sensor.label.neuralNet{mTemp});
-% end
-% % savePath = [GetFullPath(dirName.home) '/' 'sensorLabelNetSerial.mat'];
-% % save(savePath, 'sensorLabelNetSerial', '-v7.3')
-% 
-% %% comparison between detection results and actual labels of 2012
-% labelNet = [];
-% for n = 1 : length(sensorLabelNetSerial)
-%     labelNet(n) = str2double(str2mat(sensorLabelNetSerial(n)));
-% end
-% labelNet = ind2vec(labelNet);
-% 
-% for n = 1 : labelTotal
-%     if ~ismember(categorical(n), sensorLabelNetSerial)
-%        labelNet(n, :) = 0;
-%     end
-% end
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% temp
 
 %%
 elapsedTime(5) = toc(t(5)); [hours, mins, secs] = sec2hms(elapsedTime(5));
