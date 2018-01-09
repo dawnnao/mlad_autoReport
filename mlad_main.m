@@ -538,7 +538,7 @@ while goNext == 0
         trainSet.labelAll = [trainSet.labelAll trainSet.label{m}];
         trainSet.absIdxAll = [trainSet.absIdxAll; trainSet.absIdx{m}];
     end
-    % adjust indexes of non-label samples for training set pnorama
+    % adjust indexes of non-label samples for training set panorama
     trainSet.labelAll = [trainSet.labelAll; zeros(1, size(trainSet.labelAll,2))];
     trainSet.labelAll(end, sum(trainSet.labelAll) == 0) = 1;
     trainSet.labelAll = vec2ind(trainSet.labelAll);
@@ -582,7 +582,7 @@ while goNext == 0
             s, GetFullPath([dirName.plotPanoTrainSet dirName.panoramaTrainSet{s}]))
         close																 
     end
-
+    
     n = 0;
     panopano = [];
     for s = sensor.numVec
