@@ -38,13 +38,13 @@ for day = dayStart : dayEnd
             % time series signals plot
             plot(sensorData(:, s),'color','k');
             position = get(gcf,'Position');
-            set(gcf,'Units','pixels','Position',[position(1), position(2), 500, 500]);  % control figure's position
+            set(gcf,'Units','pixels','Position',[position(1), position(2), 100, 100]);  % control figure's position
             set(gca,'Units','normalized', 'Position',[0 0 1 1]);  % control axis's position in figure
             set(gca,'visible','off');
             xlim([0 size(sensorData,1)]);
             set(gcf,'color','white');
             imgTime = getframe(gcf);
-            imgTime = imresize(imgTime.cdata, [500 500]);  % expected dimension
+            imgTime = imresize(imgTime.cdata, [100 100]);  % expected dimension
             imgTime = rgb2gray(imgTime);
             imgTime = im2double(imgTime);
 %             imshow(imgTime)
@@ -61,10 +61,10 @@ for day = dayStart : dayEnd
             plot(f, abs(real(freqData(1:N/2))),'color','k');
             set(gca, 'visible', 'off');
             set(gcf,'color','white');
-            set(gcf,'Units','pixels','Position',[position(1), position(2), 500, 500]);  % control figure's position
+            set(gcf,'Units','pixels','Position',[position(1), position(2), 100, 100]);  % control figure's position
             set(gca,'Units','normalized', 'Position',[0 0 1 1]);  % control axis's position in figure
             imgFreq = getframe(gcf);
-            imgFreq = imresize(imgFreq.cdata, [500 500]);  % expected dimension
+            imgFreq = imresize(imgFreq.cdata, [100 100]);  % expected dimension
             imgFreq = rgb2gray(imgFreq);
             imgFreq = im2double(imgFreq);
 %             imshow(imgFreq)
