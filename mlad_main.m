@@ -100,7 +100,7 @@ function sensor = mlad_main(readRoot, saveRoot, sensorNum, ...
 % 
 % AUTHOR:
 %   Zhiyi Tang
-%   tangzhi1@hit.edu.cn
+%   tang@stu.hit.edu.cn
 %   Center of Structural Monitoring and Control
 % 
 % DATE CREATED:
@@ -389,15 +389,19 @@ while goNext == 0
                 % plot each sample in overview
                 if count <= nIdxTemp
                    s = size(clust.data(:, idxTemp(count)), 1);
-                   subaxis(10,20, 2*pSmall-1, 'S',0.005, 'M',0.005);
+                   
+                   subaxis(10, 20, 2*pSmall-1, 'S', 0.005, 'M', 0.005);
                    imshow(reshape(clust.data(1:s/2, idxTemp(count)), [sqrt(s/2) sqrt(s/2)]));
-                   subaxis(10,20, 2*pSmall, 'S',0.005, 'M',0.005);
+                   subaxis(10, 20, 2*pSmall, 'S', 0.005, 'M', 0.005);
                    imshow(reshape(clust.data(s/2+1:end, idxTemp(count)), [sqrt(s/2) sqrt(s/2)]));
+                   
                 else
+                    
                    subaxis(10,20, 2*pSmall-1, 'S',0.005, 'M',0.005);
                    imshow([]);
                    subaxis(10,20, 2*pSmall, 'S',0.005, 'M',0.005);
                    imshow([]);
+                   
                 end
             end
             tocPlot = toc(ticPlot);
